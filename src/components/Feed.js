@@ -1,50 +1,56 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "./SideBar";
 import Videos from "./Videos";
-import {FetchFromApi} from "../utils/FetchFromApi"
+import { FetchFromApi } from "../utils/FetchFromApi";
 
 const Feed = () => {
-  const [selectedCategory, setSelectedCategory] = useState("New");
+  const [selectedCategory, setSelectedCategory] = useState("Coding");
   const [videos, setVideos] = useState(null);
 
-  console.log("selectedCategory",selectedCategory)
-useEffect(() => {
-  setVideos(null)
-FetchFromApi(`search?part=snippet&q=${selectedCategory}`)
-.then((data)=>setVideos(data.items));
+  console.log("selectedCategory", selectedCategory);
+  useEffect(() => {
+    setVideos(null);
+    FetchFromApi(`search?part=snippet&q=${selectedCategory}`).then((data) =>
+      setVideos(data.items)
+    );
+  }, [selectedCategory]);
 
-}, [selectedCategory])
-
-
-
-  return(
-  <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
-    <Box
-      sx={{
-        height: { sx: "auto", md: "91vh" },
-        borderRight: "1px solid #3d3d3d",
-        px: { sx: 0, md: 2 },
-      }}
-    >
-      <SideBar selectedCategory = {selectedCategory} setSelectedCategory = {setSelectedCategory} />
-      <Typography
-        className="copyright"
-        variant="body2"
-        sx={{ mt: 1, color: "#fff" }}
+  return (
+    <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
+      <Box
+        sx={{
+          height: { sx: "auto", md: "91vh" },
+          borderRight: "1px solid #3d3d3d",
+          px: { sx: 0, md: 2 },
+        }}
       >
-        Copyright © 2022 JSM Media
-      </Typography>
-    </Box>
+        <SideBar
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <Typography
+          className="copyright"
+          variant="body2"
+          sx={{ mt: 1, color: "#fff" }}
+        >
+          Copyright © 2022 JSM Media
+        </Typography>
+      </Box>
 
-    <Box p={2} sx={{overflowY:"auto",height: "90vh", flex: 2 }}>
-     <Typography variant="h4" fontWeight="bold" mb={2} sx={{ color: "white" }}>
-     {selectedCategory} <span style={{ color: "#FC1503" }}>videos</span>
-     </Typography>
-     <Videos videos={videos} />
-    </Box>
-  </Stack>
-  )
-    };
+      <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          mb={2}
+          sx={{ color: "white" }}
+        >
+          {selectedCategory} <span style={{ color: "#FC1503" }}>videos</span>
+        </Typography>
+        <Videos videos={videos} />
+      </Box>
+    </Stack>
+  );
+};
 
 export default Feed;
